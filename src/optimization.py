@@ -21,8 +21,8 @@ def get_values(xg, yg, terms, limits):
     """
 
     zg = np.array(0.0*xg) # Same size grid (force array type for single scalar)
-
-    for terms_list in terms:
+    zg += terms[0][0] # Constant term A0
+    for terms_list in terms[1:]:
        zg += add_term(xg, yg, terms_list )
 
     # Add barrier terms at the limits
@@ -122,7 +122,8 @@ def calc_gradient(position, terms, limits):
     # Calculate the gradient due to boundary limits
     gradient = calc_gradient_limits(position, limits)
 
-    for terms_list in terms:
+    # Note: Gradient of 0th term is (0,0)
+    for terms_list in terms[1:]:
         grad_i = calc_gradient_term(position, terms_list )
         gradient += grad_i
 
