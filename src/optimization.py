@@ -176,8 +176,11 @@ def calc_gradient_term(position, terms_list):
     #@TODO - this is your part!
     #        Should be similar to add_term above, but will need 2 components for gradient
 
-    grad_i[0] = 0.0  # fix this for df/dx
-    grad_i[1] = 0.0  # fix this for df/dy
+    component_values_DfDx = amp* (-np.sin(wx*xv))*np.sin(wy*yv)
+    component_values_DfDy = amp*np.cos(wx*xv)*np.cos(wy*yv)
+
+    grad_i[0] = component_values_DfDx  # fix this for df/dx
+    grad_i[1] = component_values_DfDy  # fix this for df/dy
 
     # No need to change this return if you do calculation above correctly
     return grad_i
@@ -187,19 +190,19 @@ if __name__ == '__main__':
 
 
     # Parameters you should change during homework
-    alpha = 0.05 # step size (learning rate) (1.e-8 < alpha < 0.99)
-    mom   = 0.0  # Momentum term (used to blend current gradient with prior)
+    alpha =  0.05 # step size (learning rate) (1.e-8 < alpha < 0.99)
+    mom   = 0.8 # Momentum term (used to blend current gradient with prior)
                  #  0 <= mom < 1.0
 
     # Change to choose different starting files
     # Or assign a different name to generate a random values
     start_file_name = 'start_point.txt'
-    #start_file_name = 'start_point_two.txt'
+    # start_file_name = 'start_point_two.txt'
 
     # Choose a file with terms for the equations
     # Note: the first (0th) term is a constant offset with frequency=0
-    terms_file_name = 'two_terms.txt'
-    #terms_file_name = 'three_terms.txt'
+    # terms_file_name = 'two_terms.txt'
+    terms_file_name = 'three_terms.txt'
     #terms_file_name = 'four_terms.txt'
 
     # You can set to more than 4 if creating a new random file
@@ -406,10 +409,11 @@ if __name__ == '__main__':
     base_terms_file = terms_file_name.split(".")[0]
     base_start_file = start_file_name.split(".")[0]
 
-    title = f"{base_terms_file} alpha={alpha:.3f}, momentum={mom:.3f} steps={step_count} (first.last.yy)"
+    title = f"{base_terms_file} alpha={alpha:.3f}, momentum={mom:.3f} steps={step_count} (justin.sanders.20)"
     ax.set_title(title)
     plot_file = f"{base_terms_file}_{base_start_file}_a{int(1000*alpha):04d}_m{int(1000*mom):04d}.png"
-    fig.savefig(os.path.join("plots", plot_file))
+    # added relative path here, my machine was not saving
+    fig.savefig(os.path.join("../plots", plot_file))
 
     # Interactive plots
     plt.show()
